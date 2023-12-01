@@ -36,7 +36,15 @@ def get_product(product_name):
     # Si no encontramos el producto, devolvemos un mensaje de error
     return jsonify("mensaje: producto no encontrado :(")
 
+@app.route('/health')
+def health():
+    return jsonify(status='vivo')
+
+@app.route('/readiness')
+def readiness():
+    return jsonify(status='listo')
+
 
 # Si este script se ejecuta como el principal, iniciamos la aplicación Flask
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", debug=True, port=5000)
+    app.run(host="0.0.0.0", port=5000)
