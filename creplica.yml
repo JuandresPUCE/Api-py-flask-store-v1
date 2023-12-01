@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: guitarapi-replicaset
+
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: guitarapi
+  template:
+    metadata:
+      labels:
+        app: guitarapi
+    spec:
+      containers:
+      - name: guitarapi-container
+        image: jundresdevmetal/guitarapiv2:latest
+        ports:
+        - containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /readiness
+            port: 5000
+          initialDelaySeconds: 50
+          periodSeconds: 70
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 5000
+          initialDelaySeconds: 50
+          periodSeconds: 70
