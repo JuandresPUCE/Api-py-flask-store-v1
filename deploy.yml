@@ -1,10 +1,9 @@
 apiVersion: apps/v1
-kind: ReplicaSet
+kind: Deployment
 metadata:
-  name: guitarapi-replicaset
-
+  name: guitarapi-deployment
 spec:
-  replicas: 4
+  replicas: 5
   selector:
     matchLabels:
       app: guitarapi
@@ -30,3 +29,16 @@ spec:
             port: 5000
           initialDelaySeconds: 50
           periodSeconds: 70
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: guitarapi-service
+spec:
+  type: LoadBalancer
+  selector:
+    app: guitarapi
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 5000
